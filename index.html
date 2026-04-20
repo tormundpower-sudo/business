@@ -1,0 +1,1846 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liberty Payment Solutions</title>
+  <meta name="description" content="Liberty Payment Solutions — B2B решения для процессинга платежей." />
+
+  <link rel="icon" type="image/svg+xml" href="./pages/symbol_dark.svg" />
+  <link rel="apple-touch-icon" href="./pages/symbol_dark.svg" />
+
+  <style>
+    :root {
+      --bg: #080811;
+      --bg-2: #0c0d17;
+      --panel: rgba(255,255,255,.04);
+      --panel-2: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.12);
+      --stroke-2: rgba(255,255,255,.18);
+
+      --text: #f6f2ff;
+      --muted: #c9bfdc;
+      --soft: #9f95b5;
+
+      --blue: #6f83ff;
+      --blue-2: #91a6ff;
+      --violet: #a86cff;
+      --pink: #da63db;
+
+      --shadow: 0 18px 60px rgba(0,0,0,.42);
+      --radius: 24px;
+      --container: min(1220px, 92vw);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(900px 500px at 18% 0%, rgba(111,131,255,.16), transparent 60%),
+        radial-gradient(900px 600px at 92% 4%, rgba(218,99,219,.12), transparent 58%),
+        radial-gradient(700px 400px at 50% 100%, rgba(111,131,255,.08), transparent 70%),
+        linear-gradient(180deg, #0b0b14 0%, #090910 30%, #07070c 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -4;
+      background:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: .35;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 15%, rgba(255,255,255,.04), transparent 25%),
+        radial-gradient(circle at 8% 74%, rgba(111,131,255,.13), transparent 18%),
+        radial-gradient(circle at 88% 44%, rgba(168,108,255,.09), transparent 14%);
+      filter: blur(12px);
+    }
+
+    .container {
+      width: var(--container);
+      margin-inline: auto;
+      position: relative;
+    }
+
+    .top-line {
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 0%, var(--blue) 10%, #8ea6ff 50%, transparent 100%);
+      opacity: .9;
+      margin-bottom: 18px;
+      border-radius: 999px;
+    }
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 18px 0 8px;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(8,8,17,.88), rgba(8,8,17,.38) 70%, transparent);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      font-size: 1.7rem;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
+
+    .brand small {
+      display: block;
+      color: #cfc6dc;
+      font-size: .72rem;
+      font-weight: 600;
+      margin-top: 2px;
+      letter-spacing: 0;
+    }
+
+    .brand-word {
+      display: flex;
+      flex-direction: column;
+      line-height: .95;
+    }
+
+    .brand-word strong {
+      font-size: 1.8rem;
+      font-weight: 900;
+    }
+
+    .brand-word strong span {
+      color: #7ca2ff;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #f0ebfb;
+      font-size: .84rem;
+      font-weight: 700;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      transition: .2s ease;
+      white-space: nowrap;
+    }
+
+    .menu a:hover {
+      transform: translateY(-1px);
+      border-color: rgba(132,151,255,.5);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 10px 24px rgba(111,131,255,.12);
+    }
+
+    .lang {
+      color: #d7cde8;
+      font-size: .84rem;
+      font-weight: 700;
+      white-space: nowrap;
+      opacity: .9;
+      margin-left: 8px;
+    }
+
+    section {
+      position: relative;
+      padding: 44px 0;
+    }
+
+    .hero {
+      padding-top: 34px;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.02fr .98fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    h1, h2 {
+      text-transform: uppercase;
+      letter-spacing: -.04em;
+      line-height: .94;
+      font-weight: 900;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 6.2vw, 5.8rem);
+      max-width: 10.5ch;
+      margin-bottom: 22px;
+    }
+
+    h2.section-title {
+      font-size: clamp(2rem, 4.4vw, 4rem);
+      max-width: 12ch;
+      margin-bottom: 14px;
+    }
+
+    .accent {
+      color: var(--blue);
+      text-shadow: 0 0 30px rgba(111,131,255,.16);
+    }
+
+    .lead {
+      color: #ebe4f7;
+      max-width: 680px;
+      font-size: 1.13rem;
+      line-height: 1.42;
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 58px;
+      padding: 0 26px;
+      text-decoration: none;
+      border-radius: 14px;
+      font-weight: 900;
+      font-size: 1rem;
+      border: 1px solid transparent;
+      transition: .2s ease;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(90deg, #8d5cff 0%, #6f83ff 100%);
+      box-shadow: 0 12px 34px rgba(111,131,255,.3);
+    }
+
+    .btn-primary:hover { transform: translateY(-1px); }
+
+    .btn-icon {
+      width: 58px;
+      padding: 0;
+      font-size: 1.2rem;
+      background: linear-gradient(90deg, #8d5cff 0%, #6f83ff 100%);
+      color: white;
+      box-shadow: 0 12px 34px rgba(111,131,255,.3);
+    }
+
+    .hero-visual {
+      min-height: 620px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      width: 620px;
+      height: 620px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(111,131,255,.20), transparent 58%);
+      filter: blur(30px);
+      z-index: 0;
+    }
+
+    .particle-wave {
+      position: absolute;
+      inset: auto 0 -120px 0;
+      height: 280px;
+      opacity: .55;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 20% 40%, rgba(255,255,255,.45) 1px, transparent 1.5px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,.35) 1px, transparent 1.5px),
+        radial-gradient(circle at 65% 50%, rgba(255,255,255,.28) 1px, transparent 1.5px),
+        radial-gradient(circle at 80% 35%, rgba(255,255,255,.22) 1px, transparent 1.5px);
+      background-size: 16px 16px, 18px 18px, 20px 20px, 24px 24px;
+      mask: radial-gradient(90% 110% at 50% 100%, #000 45%, transparent 75%);
+      -webkit-mask: radial-gradient(90% 110% at 50% 100%, #000 45%, transparent 75%);
+      transform: perspective(500px) rotateX(65deg);
+    }
+
+    .bank-stack {
+      position: relative;
+      width: min(520px, 92%);
+      height: 420px;
+      z-index: 1;
+    }
+
+    .bank-card {
+      position: absolute;
+      width: 330px;
+      height: 210px;
+      border-radius: 24px;
+      padding: 22px;
+      background:
+        linear-gradient(135deg, #7a5bff 0%, #5d79ff 45%, #7f53ff 100%);
+      box-shadow:
+        0 24px 60px rgba(0,0,0,.48),
+        0 0 0 1px rgba(255,255,255,.12) inset,
+        0 0 50px rgba(111,131,255,.18);
+      overflow: hidden;
+    }
+
+    .bank-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.18), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,.08), transparent 48%);
+      pointer-events: none;
+    }
+
+    .bank-card.top {
+      right: 8px;
+      top: 20px;
+      transform: rotate(9deg);
+      animation: float1 6s ease-in-out infinite;
+    }
+
+    .bank-card.bottom {
+      right: 84px;
+      top: 170px;
+      transform: rotate(-8deg);
+      animation: float2 6s ease-in-out infinite;
+    }
+
+    .bank-logo {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -.03em;
+    }
+
+    .chip {
+      width: 42px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffd573, #f2b44e);
+      margin-top: 20px;
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,.08);
+    }
+
+    .wave-icon {
+      position: absolute;
+      top: 78px;
+      left: 78px;
+      color: rgba(255,255,255,.9);
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .card-num {
+      position: absolute;
+      left: 22px;
+      bottom: 52px;
+      font-size: 1.45rem;
+      letter-spacing: .11em;
+      font-weight: 900;
+    }
+
+    .card-name {
+      position: absolute;
+      left: 22px;
+      bottom: 20px;
+      font-size: .78rem;
+      font-weight: 800;
+      opacity: .95;
+    }
+
+    .card-date {
+      position: absolute;
+      left: 128px;
+      bottom: 20px;
+      font-size: .78rem;
+      font-weight: 800;
+      opacity: .92;
+    }
+
+    .master {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      width: 44px;
+      height: 28px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 35% 50%, #ffd9a8 0 48%, transparent 50%),
+        radial-gradient(circle at 65% 50%, #fff0cd 0 48%, transparent 50%);
+      opacity: .95;
+    }
+
+    .section-panel {
+      position: relative;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .partner-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 28px;
+      align-items: center;
+      padding: 36px 0 10px;
+    }
+
+    .partner-copy .eyebrow {
+      color: #ece4fa;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .partner-copy p {
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 14px;
+      max-width: 760px;
+    }
+
+    .ring-wrap {
+      display: grid;
+      place-items: center;
+      min-height: 320px;
+    }
+
+    .ring {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 0deg, #5b74ff, #8d5cff, #cf63db, #67b3ff, #5b74ff);
+      mask:
+        radial-gradient(circle at center, transparent 38%, #000 40%);
+      -webkit-mask:
+        radial-gradient(circle at center, transparent 38%, #000 40%);
+      filter: drop-shadow(0 14px 30px rgba(111,131,255,.22));
+      animation: spin 10s linear infinite;
+    }
+
+    .facts {
+      padding-top: 30px;
+    }
+
+    .facts-top {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 26px;
+      align-items: center;
+      margin-bottom: 34px;
+    }
+
+    .mesh-box {
+      position: relative;
+      min-height: 380px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07);
+      background:
+        radial-gradient(closest-side, rgba(255,255,255,.07), transparent 72%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    }
+
+    .mesh {
+      position: absolute;
+      inset: 0;
+      opacity: .9;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,.85) 1px, transparent 1.8px);
+      background-size: 14px 14px;
+      mask:
+        radial-gradient(48% 34% at 38% 36%, #000 55%, transparent 58%),
+        radial-gradient(42% 30% at 65% 56%, #000 55%, transparent 58%),
+        radial-gradient(36% 26% at 42% 68%, #000 55%, transparent 58%);
+      -webkit-mask:
+        radial-gradient(48% 34% at 38% 36%, #000 55%, transparent 58%),
+        radial-gradient(42% 30% at 65% 56%, #000 55%, transparent 58%),
+        radial-gradient(36% 26% at 42% 68%, #000 55%, transparent 58%);
+      filter: blur(.2px);
+    }
+
+    .graph-line {
+      position: absolute;
+      left: 14%;
+      right: 8%;
+      top: 46%;
+      height: 140px;
+      pointer-events: none;
+    }
+
+    .graph-line svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .facts-right {
+      display: grid;
+      gap: 22px;
+    }
+
+    .fact {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .fact strong {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: .88;
+      font-weight: 900;
+      letter-spacing: -.05em;
+    }
+
+    .fact span {
+      color: #efe8fa;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .fact small {
+      color: var(--muted);
+      font-size: .98rem;
+      line-height: 1.5;
+      max-width: 28ch;
+    }
+
+    .pay-title {
+      margin: 10px 0 18px;
+    }
+
+    .regions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .region-card {
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius: 24px;
+      padding: 18px;
+      min-height: 210px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .region-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      width: 100%;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      color: #fff;
+      font-weight: 900;
+      margin-bottom: 18px;
+      text-align: center;
+      padding: 0 18px;
+    }
+
+    .logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .logo-chip {
+      min-width: 76px;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .92rem;
+      font-weight: 800;
+      color: #f4eeff;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+      margin-top: 40px;
+    }
+
+    .service-copy {
+      padding-right: 10px;
+    }
+
+    .feature-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 16px;
+    }
+
+    .feature {
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.03);
+      border-radius: 24px;
+      padding: 22px;
+      min-height: 210px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature.gradient {
+      background: linear-gradient(135deg, rgba(141,92,255,.9), rgba(111,131,255,.82));
+    }
+
+    .feature h3 {
+      font-size: 1.6rem;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: -.03em;
+      margin-bottom: 14px;
+      font-weight: 900;
+      max-width: 14ch;
+    }
+
+    .feature p {
+      color: #e8e1f5;
+      line-height: 1.58;
+      font-weight: 600;
+      max-width: 42ch;
+    }
+
+    .feature:not(.gradient) p { color: var(--muted); }
+
+    .feature-icon {
+      position: absolute;
+      right: 18px;
+      bottom: 14px;
+      font-size: 3rem;
+      opacity: .9;
+    }
+
+    .world-tags {
+      display: flex;
+      gap: 10px;
+      overflow: auto;
+      padding-bottom: 6px;
+      margin-top: 28px;
+    }
+
+    .world-tags::-webkit-scrollbar { height: 6px; }
+    .world-tags::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,.14);
+      border-radius: 999px;
+    }
+
+    .flag-pill {
+      flex: 0 0 auto;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.06);
+      display: inline-flex;
+      align-items: center;
+      font-weight: 800;
+      color: #f6efff;
+      white-space: nowrap;
+    }
+
+    .who-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 22px;
+      align-items: stretch;
+    }
+
+    .who-card {
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 26px;
+      background: rgba(255,255,255,.03);
+      padding: 22px;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .who-card h3 {
+      text-transform: uppercase;
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      line-height: 1;
+      letter-spacing: -.03em;
+      font-weight: 900;
+    }
+
+    .who-card p,
+    .who-card li {
+      color: var(--muted);
+      line-height: 1.62;
+      font-weight: 600;
+    }
+
+    .who-card ul {
+      padding-left: 18px;
+      margin-top: 8px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .gamepad {
+      position: absolute;
+      width: 210px;
+      height: 130px;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) rotate(-12deg);
+      border-radius: 60px;
+      background: linear-gradient(180deg, #21232e, #0d0f16);
+      box-shadow: 0 24px 40px rgba(0,0,0,.45);
+    }
+
+    .gamepad::before,
+    .gamepad::after {
+      content: "";
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #3f4356, #11141d);
+      top: 44px;
+    }
+
+    .gamepad::before { left: 26px; }
+    .gamepad::after { right: 26px; }
+
+    .also-box {
+      grid-column: span 2;
+      border-radius: 26px;
+      padding: 22px;
+      background: linear-gradient(135deg, rgba(141,92,255,.92), rgba(111,131,255,.88));
+      border: 1px solid rgba(255,255,255,.14);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px 22px;
+      margin-top: 16px;
+    }
+
+    .also-box h4 {
+      grid-column: 1 / -1;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.03em;
+      margin-bottom: 4px;
+    }
+
+    .also-box ul {
+      padding-left: 18px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .also-box li {
+      line-height: 1.5;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 22px;
+      align-items: stretch;
+      margin-top: 16px;
+    }
+
+    .form-box {
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 28px;
+      background:
+        radial-gradient(600px 260px at 20% 0%, rgba(111,131,255,.20), transparent 54%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      padding: 28px;
+      box-shadow: var(--shadow);
+      min-height: 100%;
+    }
+
+    .form-box h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      max-width: 11ch;
+      margin-bottom: 16px;
+    }
+
+    .form-box .subtext {
+      color: #efe8f9;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.5;
+      max-width: 40ch;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field label {
+      color: #e8e1f5;
+      font-size: .95rem;
+      font-weight: 800;
+    }
+
+    .field input, .field textarea {
+      width: 100%;
+      min-height: 58px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(9,9,16,.65);
+      color: white;
+      padding: 0 16px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 126px;
+      padding: 16px;
+      resize: vertical;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    .privacy {
+      color: #cbbfda;
+      font-size: .85rem;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .phones-box {
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(141,92,255,.88), rgba(111,131,255,.8));
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 100%;
+      box-shadow: var(--shadow);
+    }
+
+    .phones-box::before {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.18), transparent 60%);
+      right: -80px;
+      top: -60px;
+    }
+
+    .phones-wrap {
+      width: 100%;
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      position: relative;
+      padding: 20px;
+    }
+
+    .phone {
+      width: 210px;
+      height: 420px;
+      border-radius: 32px;
+      background: linear-gradient(180deg, #14161f, #07080d);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 24px 46px rgba(0,0,0,.45);
+      position: absolute;
+      overflow: hidden;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92px;
+      height: 18px;
+      background: #000;
+      border-radius: 999px;
+    }
+
+    .phone .screen {
+      position: absolute;
+      inset: 32px 12px 12px;
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(111,131,255,.16), transparent 36%),
+        linear-gradient(180deg, #11131b, #0b0d13 100%);
+      padding: 22px 16px;
+      color: white;
+    }
+
+    .phone.back {
+      transform: translate(70px, -24px) rotate(8deg);
+      opacity: .92;
+    }
+
+    .phone.front {
+      transform: translate(-30px, 34px) rotate(-6deg);
+      z-index: 2;
+    }
+
+    .secure-badge {
+      margin-top: 56px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 0 10px;
+      background: rgba(144,114,255,.25);
+      border: 1px solid rgba(255,255,255,.10);
+      font-size: .8rem;
+      font-weight: 800;
+    }
+
+    .accepted {
+      font-size: 1.9rem;
+      line-height: 1.05;
+      font-weight: 900;
+      margin-top: 30px;
+    }
+
+    .shield {
+      width: 86px;
+      height: 86px;
+      margin-top: 24px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(255,255,255,.26), transparent 42%),
+        linear-gradient(180deg, #ffffff 0%, #a7b4ff 100%);
+      clip-path: polygon(50% 0%, 88% 16%, 88% 52%, 50% 100%, 12% 52%, 12% 16%);
+      display: grid;
+      place-items: center;
+      color: #4155ff;
+      font-size: 2rem;
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(255,255,255,.16);
+    }
+
+    .tg-wrap {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .slider-box {
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 28px;
+      background: rgba(255,255,255,.03);
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 70px 260px 1fr;
+      gap: 18px;
+      align-items: center;
+      min-height: 300px;
+      box-shadow: var(--shadow);
+    }
+
+    .arrow {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(111,131,255,.18);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin: 0 auto;
+    }
+
+    .tg-phone {
+      width: 240px;
+      height: 470px;
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: linear-gradient(180deg, #12141d, #07080e);
+      box-shadow: 0 22px 48px rgba(0,0,0,.46);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tg-phone::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 18px;
+      background: #000;
+      border-radius: 999px;
+    }
+
+    .tg-screen {
+      position: absolute;
+      inset: 32px 10px 10px;
+      border-radius: 24px;
+      background: #0e1016;
+      padding: 18px 14px;
+      color: #f6f1ff;
+      font-size: .92rem;
+      line-height: 1.48;
+      overflow: hidden;
+    }
+
+    .tg-screen .chat-head {
+      font-size: 1rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .tg-screen .offer {
+      display: grid;
+      gap: 8px;
+      color: #ece5fb;
+      font-weight: 700;
+    }
+
+    .tg-screen .offer b {
+      color: white;
+    }
+
+    .promo-box {
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 28px;
+      background:
+        radial-gradient(500px 240px at 10% 0%, rgba(111,131,255,.15), transparent 54%),
+        rgba(255,255,255,.03);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .promo-box h2 {
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      max-width: 11ch;
+      margin-bottom: 12px;
+    }
+
+    .promo-box p {
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.58;
+      margin-bottom: 20px;
+      max-width: 42ch;
+      font-weight: 600;
+    }
+
+    .promo-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      padding: 34px 0 44px;
+    }
+
+    .footer-box {
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 26px;
+      display: grid;
+      grid-template-columns: 1.2fr .9fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .footer-brand {
+      display: grid;
+      gap: 12px;
+    }
+
+    .footer-brand .brand {
+      font-size: 2rem;
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+    }
+
+    .soc {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.10);
+      display: grid;
+      place-items: center;
+      color: white;
+      text-decoration: none;
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px 22px;
+      align-content: start;
+      padding-top: 14px;
+    }
+
+    .footer-links a {
+      color: #ece5f8;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+      padding-top: 10px;
+    }
+
+    .footer-right .mail {
+      color: white;
+      font-size: 1.15rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .copyright {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      margin-top: 24px;
+      padding-top: 18px;
+      color: #bcb1d0;
+      font-weight: 600;
+      flex-wrap: wrap;
+    }
+
+    .scroll-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.09);
+      color: white;
+      text-decoration: none;
+      display: grid;
+      place-items: center;
+      z-index: 60;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 16px 34px rgba(0,0,0,.3);
+    }
+
+    @keyframes float1 {
+      0%,100% { transform: rotate(9deg) translateY(0); }
+      50% { transform: rotate(7deg) translateY(-14px); }
+    }
+
+    @keyframes float2 {
+      0%,100% { transform: rotate(-8deg) translateY(0); }
+      50% { transform: rotate(-11deg) translateY(-16px); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0); }
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 1100px) {
+      .hero-grid,
+      .partner-grid,
+      .facts-top,
+      .service-grid,
+      .contact-grid,
+      .tg-wrap,
+      .footer-box {
+        grid-template-columns: 1fr;
+      }
+
+      .regions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .who-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .also-box {
+        grid-column: auto;
+        grid-template-columns: 1fr;
+      }
+
+      .
+      slider-box {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+
+      .tg-phone {
+        width: min(240px, 100%);
+      }
+
+      .feature-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .menu { display: none; }
+      .lang { display: none; }
+
+      .hero-visual {
+        min-height: 420px;
+      }
+
+      .bank-stack {
+        transform: scale(.88);
+      }
+
+      .regions {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-panel,
+      .form-box,
+      .phones-box,
+      .promo-box,
+      .slider-box,
+      .who-card,
+      .region-card,
+      .feature {
+        border-radius: 22px;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 12vw, 4.2rem);
+      }
+
+      h2.section-title,
+      .promo-box h2,
+      .form-box h2 {
+        font-size: clamp(1.8rem, 8vw, 3rem);
+      }
+
+      .lead {
+        font-size: 1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body id="top">
+  <div class="nav-wrap">
+    <div class="container">
+      <div class="top-line"></div>
+      <nav class="nav">
+        <a class="brand" href="#top">
+          <img src="./pages/symbol_dark.svg" alt="Liberty logo" />
+          <span class="brand-word">
+            <strong>Lib<span>erty</span></strong>
+            <small>c 2019 года</small>
+          </span>
+        </a>
+
+        <div style="display:flex; align-items:center;">
+          <div class="menu">
+            <a href="#about">Кто мы</a>
+            <a href="#systems">Платёжные системы</a>
+            <a href="#benefits">Преимущества</a>
+            <a href="#clients">С кем работаем</a>
+            <a href="#contact">Контакты</a>
+          </div>
+          <div class="lang">RU | EN | FR | ES</div>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <h1><span class="accent">Welcome to Liberty</span><br>Private Limited Company</h1>
+            <p class="lead">
+              Наша компания — это надёжные и инновационные платёжные решения.
+              Наша миссия — увеличение дохода компаний и частных клиентов путём внедрения эффективных платёжных инструментов.
+              Наша цель — предоставить максимально простой способ расчётов и платёжных решений в любом гео и под любой трафик.
+            </p>
+
+            <div class="actions">
+              <a href="#contact" class="btn btn-primary">Свяжитесь с нами</a>
+              <a href="#contact" class="btn btn-icon">👤</a>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="particle-wave"></div>
+
+            <div class="bank-stack">
+              <div class="bank-card top">
+                <div class="bank-logo">Liberty</div>
+                <div class="chip"></div>
+                <div class="wave-icon">⌁</div>
+                <div class="card-num">1234 5678 9012 3456</div>
+                <div class="card-name">JOHN DOE</div>
+                <div class="card-date">01/30</div>
+                <div class="master"></div>
+              </div>
+
+              <div class="bank-card bottom">
+                <div class="bank-logo">Liberty</div>
+                <div class="chip"></div>
+                <div class="wave-icon">⌁</div>
+                <div class="card-num">1234 5678 9012 3456</div>
+                <div class="card-name">JOHN DOE</div>
+                <div class="card-date">01/30</div>
+                <div class="master"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-panel" id="about">
+      <div class="container">
+        <section class="partner-grid">
+          <div class="partner-copy">
+            <div class="eyebrow">Обеспечивая уверенность и безопасность на каждом этапе вашего финансового пути</div>
+            <h2 class="section-title">Liberty является вашим <span class="accent">надёжным партнёром</span> в сфере финансовых решений</h2>
+            <p>
+              Мы предлагаем инновационные платёжные решения, которые открывают новые возможности для вашего бизнеса и личных финансов.
+              Команда экспертов заботится о защите ваших интересов и безопасности транзакций.
+            </p>
+            <p>
+              Позвольте нам стать частью вашего финансового успеха и собрать для вас масштабируемую, красивую и коммерчески эффективную платёжную инфраструктуру.
+            </p>
+          </div>
+
+          <div class="ring-wrap">
+            <div class="ring"></div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="facts" id="systems">
+      <div class="container">
+        <div class="top-line"></div>
+
+        <div class="facts-top">
+          <div class="mesh-box">
+            <div class="mesh"></div>
+            <div class="graph-line">
+              <svg viewBox="0 0 1000 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M40 160 C180 120, 260 150, 380 145 C500 140, 560 120, 660 80 C760 40, 840 20, 960 18"
+                      stroke="url(#g1)" stroke-width="6" stroke-linecap="round"/>
+                <circle cx="120" cy="148" r="14" fill="#8d5cff"/>
+                <circle cx="350" cy="145" r="14" fill="#8d5cff"/>
+                <circle cx="590" cy="120" r="14" fill="#6f83ff"/>
+                <circle cx="760" cy="60" r="14" fill="#6f83ff"/>
+                <circle cx="925" cy="18" r="14" fill="#6f83ff"/>
+                <defs>
+                  <linearGradient id="g1" x1="0" y1="0" x2="1000" y2="0">
+                    <stop stop-color="#a86cff"/>
+                    <stop offset="1" stop-color="#6f83ff"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <div class="facts-right">
+            <div class="fact">
+              <strong>с 2019</strong>
+              <span>года на рынке</span>
+              <small>Стабильно работаем в нише платёжной инфраструктуры и кастомных B2B решений.</small>
+            </div>
+
+            <div class="fact">
+              <strong>&gt;178</strong>
+              <span>проектов</span>
+              <small>Пользуются сервисом и решениями Liberty для работы с трафиком, выплатами и приёмом платежей.</small>
+            </div>
+
+            <div class="fact">
+              <strong>24/7</strong>
+              <span>работа без остановки</span>
+              <small>Поддержка, мониторинг, реакция на инциденты и сопровождение без лишних задержек.</small>
+            </div>
+
+            <div class="fact">
+              <strong>89</strong>
+              <span>стран</span>
+              <small>География платёжных методов, партнёров и рабочих направлений.</small>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="section-title pay-title">Предоставляем работу через платёжные системы:</h2>
+
+        <div class="regions">
+          <article class="region-card">
+            <div class="region-pill">Япония 🇯🇵</div>
+            <div class="logos">
+              <span class="logo-chip">RPay</span>
+              <span class="logo-chip">LINE Pay</span>
+              <span class="logo-chip">PayPay</span>
+              <span class="logo-chip">JCB</span>
+            </div>
+          </article>
+
+          <article class="region-card">
+            <div class="region-pill">Китай 🇨🇳</div>
+            <div class="logos">
+              <span class="logo-chip">AliPay</span>
+              <span class="logo-chip">WeChat</span>
+              <span class="logo-chip">UnionPay</span>
+              <span class="logo-chip">JD</span>
+            </div>
+          </article>
+
+          <article class="region-card">
+            <div class="region-pill">Австралия 🇦🇺</div>
+            <div class="logos">
+              <span class="logo-chip">BPAY</span>
+              <span class="logo-chip">afterpay</span>
+              <span class="logo-chip">PayPal</span>
+              <span class="logo-chip">Apple Pay</span>
+              <span class="logo-chip">GPay</span>
+            </div>
+          </article>
+
+          <article class="region-card">
+            <div class="region-pill">Индия 🇮🇳</div>
+            <div class="logos">
+              <span class="logo-chip">Paytm</span>
+              <span class="logo-chip">UPI</span>
+              <span class="logo-chip">PhonePe</span>
+              <span class="logo-chip">GPay</span>
+              <span class="logo-chip">Mobikwik</span>
+            </div>
+          </article>
+
+          <article class="region-card">
+            <div class="region-pill">Страны ЕС 🇪🇺</div>
+            <div class="logos">
+              <span class="logo-chip">SEPA</span>
+              <span class="logo-chip">Giropay</span>
+              <span class="logo-chip">NETELLER</span>
+              <span class="logo-chip">PayPal</span>
+              <span class="logo-chip">Klarna</span>
+              <span class="logo-chip">Skrill</span>
+            </div>
+          </article>
+
+          <article class="region-card">
+            <div class="region-pill">США 🇺🇸 / Канада 🇨🇦</div>
+            <div class="logos">
+              <span class="logo-chip">Zelle</span>
+              <span class="logo-chip">Venmo</span>
+              <span class="logo-chip">Apple Pay</span>
+              <span class="logo-chip">Interac</span>
+              <span class="logo-chip">Stripe</span>
+              <span class="logo-chip">GPay</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="service-grid">
+          <div class="service-copy">
+            <h2 class="section-title">Liberty — универсальный платёжный сервис</h2>
+            <p class="muted">
+              Надёжное и простое решение, которое отвечает всем ключевым потребностям онлайн-бизнеса:
+              маршрутизация, приём платежей, выплаты, white-label архитектура, Telegram-интеграции,
+              гибкие сценарии под high-risk и кастомная адаптация под вашу модель продаж.
+            </p>
+          </div>
+
+          <div class="feature-cards">
+            <article class="feature">
+              <h3>На острие технологий</h3>
+              <p>Современный стек, гибкая архитектура, кастомизация под продукт и быстрое внедрение новых сценариев оплаты.</p>
+              <div class="feature-icon">📈</div>
+            </article>
+
+            <article class="feature">
+              <h3>Международная компания</h3>
+              <p>Работаем с широким спектром платёжных методов и партнёров по разным регионам и вертикалям.</p>
+              <div class="feature-icon">🧩</div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits">
+      <div class="container">
+        <div class="top-line"></div>
+
+        <div class="feature-cards">
+          <article class="feature gradient">
+            <h3>Наши платёжные решения соответствуют высоким стандартам безопасности</h3>
+            <p>Продуманная архитектура, контроль доступа, стабильность интеграций и высокий уровень операционной надёжности.</p>
+            <div class="feature-icon">🛡️</div>
+          </article>
+
+          <article class="feature">
+            <h3>Круглосуточная поддержка и бесперебойный режим работы сервиса</h3>
+            <p>Liberty — ваш надёжный партнёр 24/7. Мы рядом, чтобы поддержать вас в любое время, когда это необходимо.</p>
+            <div class="feature-icon">💬</div>
+          </article>
+
+          <article class="feature">
+            <h3>Молодой и сильный коллектив</h3>
+            <p>Команда специалистов из разных стран мира, которые специализируются на применении современных технологий и улучшении клиентского сервиса.</p>
+            <div class="feature-icon">👥</div>
+          </article>
+
+          <article class="feature">
+            <h3>Независимая компания</h3>
+            <p>Международная команда, специализирующаяся на high-risk платежах. Персональный подход к каждому клиенту и оперативная интеграция.</p>
+            <div class="feature-icon">💳</div>
+          </article>
+
+          <article class="feature gradient">
+            <h3>Известны в инфополе</h3>
+            <p>Активно развиваем каналы коммуникации, работаем с Telegram, контентом, брендингом и инструментами роста для проектов клиентов.</p>
+            <div class="feature-icon">📱</div>
+          </article>
+        </div>
+
+        <div style="margin-top:34px;">
+          <h2 class="section-title">Мы объединяем мир</h2>
+          <p class="muted" style="max-width:680px;">
+            Делая онлайн-платежи простыми, гибкими и доступными независимо от того, где вы находитесь и под какой рынок строите продукт.
+          </p>
+
+          <div class="world-tags">
+            <span class="flag-pill">🇮🇩 Indonesia</span>
+            <span class="flag-pill">🇿🇲 Zambia</span>
+            <span class="flag-pill">🇺🇬 Uganda</span>
+            <span class="flag-pill">🇺🇸 USA</span>
+            <span class="flag-pill">🇨🇭 Switzerland</span>
+            <span class="flag-pill">🇫🇮 Finland</span>
+            <span class="flag-pill">🇵🇱 Poland</span>
+            <span class="flag-pill">🇮🇹 Italy</span>
+            <span class="flag-pill">🇨🇺 Cuba</span>
+            <span class="flag-pill">🇨🇴 Colombia</span>
+            <span class="flag-pill">🇹🇭 Thailand</span>
+            <span class="flag-pill">🇻🇳 Vietnam</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="clients">
+      <div class="container">
+        <div class="top-line"></div>
+
+        <div class="world-tags" style="margin-top:0;">
+          <span class="flag-pill">🇧🇴 Bolivia</span>
+          <span class="flag-pill">🇨🇲 Cameroon</span>
+          <span class="flag-pill">🇧🇫 Burkina Faso</span>
+          <span class="flag-pill">🇵🇪 Peru</span>
+          <span class="flag-pill">🇵🇭 Philippines</span>
+          <span class="flag-pill">🇨🇳 China</span>
+          <span class="flag-pill">🇹🇭 Thailand</span>
+          <span class="flag-pill">🇻🇳 Vietnam</span>
+          <span class="flag-pill">🇳🇬 Nigeria</span>
+          <span class="flag-pill">🇺🇿 Uzbekistan</span>
+        </div>
+
+        <h2 class="section-title" style="margin-top:30px;">С кем мы работаем</h2>
+
+        <div class="who-grid">
+          <article class="who-card">
+            <h3>Товары</h3>
+            <p>Удобство оплаты на сайте приобретённых программ, статей, баннеров, цифровых продуктов и любых других онлайн-товаров.</p>
+            <div class="gamepad"></div>
+          </article>
+
+          <article class="who-card">
+            <h3>Дейтинг-сайты</h3>
+            <p>Покупка дополнительных привилегий, расширение возможностей знакомства и монетизация через удобную онлайн-оплату.</p>
+          </article>
+
+          <article class="who-card">
+            <h3>Инвестиционные проекты</h3>
+            <p>Для владельцев стартапов, коммерческих, экономических и финансовых проектов — отдельные сценарии по приёму платежей и выплатам.</p>
+          </article>
+
+          <div class="also-box">
+            <h4>А также</h4>
+
+            <ul>
+              <li>Заказ по почте / телефону</li>
+              <li>Онлайн-ритейл</li>
+              <li>Путешествия</li>
+              <li>Маркетинг</li>
+              <li>iGaming</li>
+              <li>High risk</li>
+            </ul>
+
+            <ul>
+              <li>Беттинг</li>
+              <li>Контент 18+</li>
+              <li>Форекс</li>
+              <li>Телекоммуникации</li>
+              <li>Онлайн-торговля</li>
+              <li>Интернет-аукционы</li>
+            </ul>
+
+            <ul>
+              <li>Гороскоп</li>
+              <li>Фриланс</li>
+              <li>Телемаркетинг</li>
+              <li>NUTRA</li>
+              <li>Загрузка ПО</li>
+              <li>И кастомные вертикали</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="top-line"></div>
+
+        <div class="contact-grid">
+          <div class="form-box">
+            <h2>Есть вопросы? Оставьте заявку!</h2>
+            <p class="subtext">
+              Заполните форму, и мы свяжемся с вами в течение 15 минут.
+            </p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label>Ваше имя</label>
+                <input type="text" placeholder="Михаил" />
+              </div>
+
+              <div class="field">
+                <label>Ник в Telegram</label>
+                <input type="text" placeholder="@liberty" />
+              </div>
+
+              <div class="field full">
+                <label>E-mail</label>
+                <input type="email" placeholder="info@liberty.tech" />
+              </div>
+
+              <div class="field full">
+                <label>Комментарий</label>
+                <textarea placeholder="Кратко опишите ваш продукт, гео и что именно хотите подключить."></textarea>
+              </div>
+            </div>
+
+            <div class="actions" style="margin-top:4px;">
+              <a href="#" class="btn btn-primary">Свяжитесь с нами</a>
+              <a href="#" class="btn btn-icon">👤</a>
+            </div>
+
+            <div class="privacy">
+              Нажимая на кнопку, вы даёте согласие на обработку персональных данных.
+            </div>
+          </div>
+
+          <div class="phones-box">
+            <div class="phones-wrap">
+              <div class="phone back">
+                <div class="screen">
+                  <div class="secure-badge">✔ Безопасно</div>
+                  <div class="accepted">Платёж принят</div>
+                  <div class="shield">✓</div>
+                </div>
+              </div>
+
+              <div class="phone front">
+                <div class="screen">
+                  <div class="secure-badge">✔ Безопасно</div>
+                  <div class="accepted">Платёж принят</div>
+                  <div class="shield">✓</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tg-wrap">
+          <div class="slider-box">
+            <div class="arrow">‹</div>
+
+            <div class="tg-phone">
+              <div class="tg-screen">
+                <div class="chat-head">Liberty Offers</div>
+                <div class="offer">
+                  <div><b>UNITED ARAB EMIRATES</b></div>
+                  <div>Pay in: AED</div>
+                  <div>Pay out: USDT, Bybit, T+0</div>
+                  <div>Settlement: instant</div>
+                  <div>Payment method: Emirates NBD / IBAN</div>
+                  <div>Limits: 500 – 150 000 AED</div>
+                  <div>Support: 8:00–23:00 (UTC+4)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="promo-box">
+              <h2>Переходите в наш закрытый TG-бот, где мы ежедневно публикуем офферы в 150+ гео</h2>
+              <p>Оставьте заявку на сайте и получите доступ к предложениям, рабочим связкам и операционным обновлениям.</p>
+              <div class="promo-actions">
+                <a href="#contact" class="btn btn-primary">Оставить заявку</a>
+                <a href="#" class="btn btn-icon">✈</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer>
+          <div class="footer-box">
+            <div class="footer-brand">
+              <a class="brand" href="#top">
+                <img src="./pages/symbol_dark.svg" alt="Liberty logo" />
+                <span class="brand-word">
+                  <strong>Lib<span>erty</span></strong>
+                  <small>Простые решения сложных задач</small>
+                </span>
+              </a>
+
+              <div class="socials">
+                <a href="#" class="soc">✈</a>
+                <a href="#" class="soc">f</a>
+              </div>
+
+              <div style="color:#d7ccea; font-weight:700;">TERMS & CONDITIONS</div>
+            </div>
+
+            <div class="footer-links">
+              <a href="#about">Кто мы</a>
+              <a href="#systems">Платёжные системы</a>
+              <a href="#benefits">Преимущества</a>
+              <a href="#clients">С кем работаем</a>
+            </div>
+
+            <div class="footer-right">
+              <div class="actions" style="margin-top:0;">
+                <a href="#contact" class="btn btn-primary">Свяжитесь с нами</a>
+                <a href="#contact" class="btn btn-icon">👤</a>
+              </div>
+              <a class="mail" href="mailto:info@liberty.tech">info@liberty.tech</a>
+            </div>
+          </div>
+
+          <div class="copyright">
+            <span>© Liberty, 2019—2026</span>
+            <span>Политика конфиденциальности</span>
+          </div>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <a href="#top" class="scroll-top">⌃</a>
+</body>
+</html>
